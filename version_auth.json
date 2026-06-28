@@ -1,0 +1,7 @@
+{
+  "valid_versions": ["v13.0.0"],
+  "expired_versions": [],
+  "repo_binding": "Mocheng778/most-vip",
+  "force_update_msg": "当前版本已失效，请更新至最新版",
+  "repo_changed_msg": "仓库绑定校验失败，模块已停用"
+}
