@@ -1,0 +1,64 @@
+{
+  "version": "v13.0.0",
+  "update_time": "2026-06-28",
+  "allowed_commands": {
+    "a": {
+      "name": "HMA配置同步",
+      "desc": "同步云端HMA配置到本地",
+      "enabled": true
+    },
+    "b": {
+      "name": "Zygisk参数配置",
+      "desc": "优化Zygisk Next运行参数",
+      "enabled": true
+    },
+    "c": {
+      "name": "Tricky黑名单",
+      "desc": "写入TrickyStore检测黑名单",
+      "enabled": true
+    },
+    "d": {
+      "name": "注入Keybox",
+      "desc": "注入证书绕过强检测",
+      "enabled": true
+    },
+    "e": {
+      "name": "存储缓存清理",
+      "desc": "清理APP残留缓存目录",
+      "enabled": true
+    },
+    "f": {
+      "name": "MT管理器优化",
+      "desc": "MT管理器去广告+防检测",
+      "enabled": true
+    },
+    "all": {
+      "name": "一键全套环境配置",
+      "desc": "顺序执行全部a-f功能",
+      "enabled": true
+    },
+    "sync_all": {
+      "name": "云端同步模块文件",
+      "desc": "从仓库同步最新源码到本地",
+      "enabled": true
+    },
+    "unlock": {
+      "name": "临时解锁保护文件",
+      "desc": "解除核心文件只读锁",
+      "enabled": true
+    },
+    "lock": {
+      "name": "重新锁定保护文件",
+      "desc": "恢复核心文件只读保护",
+      "enabled": true
+    }
+  },
+  "vip_features": [
+    "TrickyStore黑名单自动更新",
+    "Keybox证书云端轮换",
+    "HMA配置云端同步",
+    "MT管理器专属优化",
+    "内核级文件保护锁"
+  ],
+  "notice": "莫晨一键隐藏VIP模块 v13.0.0\n使用前请确保已安装对应环境"
+}
