@@ -1,8 +1,8 @@
 {
   "version": "v13.0.0(60)",
-  "versionCode": 60,
+  "versionCode": 62,
   "minVersion": "v13.0.0(60)",
-  "minVersionCode": 60,
+  "minVersionCode": 62,
   "minSupportedVersionCode": 60,
   "forceUpdate": true,
   "forceUpdateMessage": "当前版本过低，功能已停用，请更新到最新版本后使用。",
