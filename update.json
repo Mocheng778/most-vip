@@ -1,1 +1,11 @@
-# most-vip
+{
+  "version": "v13.0.0(60)",
+  "versionCode": 60,
+  "minVersion": "v13.0.0(60)",
+  "minVersionCode": 60,
+  "minSupportedVersionCode": 60,
+  "forceUpdate": true,
+  "forceUpdateMessage": "当前版本过低，功能已停用，请更新到最新版本后使用。",
+  "zipUrl": "https://github.com/Mocheng778/most-vip/releases/latest/download/cufy5chu.zip",
+  "changelog": "https://raw.githubusercontent.com/Mocheng778/most-vip/main/changelog.md"
+}
