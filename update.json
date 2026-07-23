@@ -1,9 +1,8 @@
-}
 {
   "version": "v13.0.4(64)",
   "versionCode": 64,
   "forceUpdate": true,
   "forceUpdateMessage": "当前版本过低，功能已停用，请更新到最新版本后使用。",
-  "zipUrl": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/Mocheng778/most-vip/main/莫晨一键隐藏模块-v13.0.4版本.zip",
+  "zipUrl": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/Mocheng778/most-vip/main/most-vip-v13.0.4.zip",
   "changelog": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/Mocheng778/most-vip/main/changelog.md"
 }
