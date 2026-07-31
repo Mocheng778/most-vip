@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>莫晨一键隐藏模块 v13.0.6</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #070b10;
+  --panel: rgba(13, 18, 26, 0.94);
+  --panel-strong: #101721;
+  --panel-soft: #151d2a;
+  --line: #263241;
+  --line-strong: #334357;
+  --text: #f4f7fb;
+  --muted: #aeb9c7;
+  --accent: #2dd4bf;
+  --accent-strong: #14b8a6;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: var(--bg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background: rgba(7, 11, 16, 0.78);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+.shell {
+  width: min(940px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.topbar {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  margin-bottom: 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.brand {
+  min-width: 0;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.brand p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.panel {
+  padding: 16px;
+  margin-bottom: 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.panel-title {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.panel-title h2 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 3px 9px;
+  color: #d5fff8;
+  font-size: 0.82rem;
+  background: rgba(20, 184, 166, 0.16);
+  border: 1px solid rgba(45, 212, 191, 0.38);
+  border-radius: 999px;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.switch-row {
+  display: flex;
+  min-height: 62px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px;
+  background: var(--panel-soft);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+}
+
+.switch-copy {
+  min-width: 0;
+}
+
+.switch-title {
+  display: block;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.switch-desc {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.switch-control {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.switch-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.switch-track {
+  position: relative;
+  display: block;
+  width: 62px;
+  height: 34px;
+  background: #263241;
+  border: 1px solid #405169;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.switch-track::after {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  content: "";
+  background: #e8eef6;
+  border-radius: 999px;
+  transition: transform 160ms ease;
+}
+
+.switch-input:checked + .switch-track {
+  background: var(--accent);
+  border-color: var(--accent-strong);
+}
+
+.switch-input:checked + .switch-track::after {
+  transform: translateX(28px);
+}
+
+.switch-input:focus-visible + .switch-track {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.switch-input:disabled + .switch-track {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 14px;
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  background: var(--panel-soft);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+a.button {
+  text-decoration: none;
+}
+
+.button:hover {
+  background: #1b2635;
+  border-color: #4a5f78;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button[disabled] {
+  color: #7f8b99;
+  cursor: wait;
+  background: #121924;
+  border-color: #202a38;
+  transform: none;
+}
+
+.button.primary {
+  color: #06201d;
+  background: var(--accent);
+  border-color: var(--accent-strong);
+}
+
+.button.primary:hover {
+  background: #5eead4;
+}
+
+.button.warning {
+  color: #211400;
+  background: var(--warning);
+  border-color: #d97706;
+}
+
+.button.danger {
+  color: #fff;
+  background: #b91c1c;
+  border-color: #991b1b;
+}
+
+.update-panel {
+  border-color: rgba(245, 158, 11, 0.72);
+  background: rgba(42, 29, 10, 0.94);
+}
+
+.update-message {
+  margin: 0;
+  color: #ffe7b5;
+  line-height: 1.55;
+}
+
+.update-meta {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.update-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.wallpaper-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.file-input {
+  min-height: 46px;
+  width: 100%;
+  padding: 10px;
+  color: var(--text);
+  background: var(--panel-strong);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+}
+
+.file-input::file-selector-button {
+  min-height: 32px;
+  margin-right: 12px;
+  padding: 6px 10px;
+  color: #06201d;
+  font-weight: 700;
+  background: var(--accent);
+  border: 0;
+  border-radius: 7px;
+}
+
+.log {
+  min-height: 210px;
+  max-height: 360px;
+  padding: 12px;
+  overflow-y: auto;
+  color: #d9e3ee;
+  font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  background: #05080c;
+  border: 1px solid #1d2734;
+  border-radius: 8px;
+}
+
+.log-line {
+  padding: 2px 0;
+  overflow-wrap: anywhere;
+}
+
+.log-line.info {
+  color: #9fd8ff;
+}
+
+.log-line.success {
+  color: #95f5b4;
+}
+
+.log-line.error {
+  color: #ff9c9c;
+}
+
+.log-line.warning {
+  color: #ffd38a;
+}
+
+@media (max-width: 720px) {
+  .shell {
+    padding: 12px;
+  }
+
+  .topbar,
+  .panel-title,
+  .wallpaper-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .topbar {
+    display: block;
+  }
+
+  .toolbar,
+  .action-grid,
+  .wallpaper-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <h1>莫晨一键隐藏模块</h1>
+      <p>v13.0.6 控制面板</p>
+    </div>
+  </header>
+
+  <section class="panel update-panel" id="forceUpdatePanel" aria-labelledby="force-update-title" hidden>
+    <div class="panel-title">
+      <h2 id="force-update-title">必须更新</h2>
+    </div>
+    <p class="update-message" id="forceUpdateMessage">当前版本过低，功能已停用，请更新到最新版本后使用。</p>
+    <p class="update-meta" id="forceUpdateMeta"></p>
+    <div class="update-actions">
+      <a class="button warning" id="forceUpdateLink" href="#" target="_blank" rel="noopener" hidden>下载最新版</a>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="quick-title">
+    <div class="panel-title">
+      <h2 id="quick-title">快速操作</h2>
+      <span class="status" id="apiStatus">API 端口 8081</span>
+    </div>
+    <div class="toolbar">
+      <button class="button primary" type="button" data-command="service">启动服务</button>
+      <button class="button warning" type="button" data-command="run-all">一键顺序执行</button>
+      <button class="button" type="button" data-command="clear-log">清空面板日志</button>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="renderer-title">
+    <div class="panel-title">
+      <h2 id="renderer-title">渲染切换</h2>
+      <span class="status" id="rendererStatus">读取中</span>
+    </div>
+    <label class="switch-row" for="vulkanSwitch">
+      <span class="switch-copy">
+        <span class="switch-title">Vulkan 渲染</span>
+        <span class="switch-desc" id="rendererDesc">正在读取当前渲染器</span>
+      </span>
+      <span class="switch-control">
+        <input class="switch-input" type="checkbox" id="vulkanSwitch">
+        <span class="switch-track" aria-hidden="true"></span>
+      </span>
+    </label>
+  </section>
+
+  <section class="panel" aria-labelledby="actions-title">
+    <div class="panel-title">
+      <h2 id="actions-title">单项功能</h2>
+    </div>
+    <div class="action-grid" id="actionGrid"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="wallpaper-title">
+    <div class="panel-title">
+      <h2 id="wallpaper-title">背景</h2>
+    </div>
+    <div class="wallpaper-row">
+      <input class="file-input" type="file" id="bgPicker" accept="image/*">
+      <button class="button" type="button" data-command="reset-bg">恢复默认背景</button>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="log-title">
+    <div class="panel-title">
+      <h2 id="log-title">运行日志</h2>
+      <button class="button danger" type="button" data-command="clear-remote-log">清空后台日志</button>
+    </div>
+    <div class="log" id="log" role="log" aria-live="polite"></div>
+  </section>
+</main>
+
+<script>
+const actions = [
+  { key: "hma_blacklist_config", name: "HMA 黑名单配置" },
+  { key: "zygisk_next_config", name: "Zygisk Next 配置" },
+  { key: "tricky_store_targets", name: "TrickyStore 目标列表" },
+  { key: "keybox_update", name: "Keybox 一键更新" },
+  { key: "hidden_app_trace_clean", name: "隐藏应用痕迹清理" },
+  { key: "mt_path_config", name: "MT 管理器路径配置" },
+  { key: "mt_recycle_config", name: "MT 回收站配置" }
+];
+
+const CURRENT_VERSION = "v13.0.6(68)";
+const CURRENT_VERSION_CODE = 68;
+const DEFAULT_ZIP_URL = "";
+
+const actionMap = Object.fromEntries(actions.map((action) => [action.key, action]));
+const logEl = document.getElementById("log");
+const apiStatusEl = document.getElementById("apiStatus");
+const actionGridEl = document.getElementById("actionGrid");
+const bgPickerEl = document.getElementById("bgPicker");
+const vulkanSwitchEl = document.getElementById("vulkanSwitch");
+const rendererStatusEl = document.getElementById("rendererStatus");
+const rendererDescEl = document.getElementById("rendererDesc");
+const forceUpdatePanelEl = document.getElementById("forceUpdatePanel");
+const forceUpdateMessageEl = document.getElementById("forceUpdateMessage");
+const forceUpdateMetaEl = document.getElementById("forceUpdateMeta");
+const forceUpdateLinkEl = document.getElementById("forceUpdateLink");
+let forceUpdateRequired = false;
+
+function apiUrl(key) {
+  const currentHost = window.location.hostname || "";
+  const host = currentHost.endsWith("kernelsu.org") ? "127.0.0.1" : (currentHost || "127.0.0.1");
+  return `http://${host}:8081/?key=${encodeURIComponent(key)}`;
+}
+
+function log(message, type = "info") {
+  const time = new Date().toLocaleTimeString("zh-CN", { hour12: false });
+  const row = document.createElement("div");
+  row.className = `log-line ${type}`;
+  row.textContent = `[${time}] ${message}`;
+  logEl.appendChild(row);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function setButtonsBusy(isBusy) {
+  document.querySelectorAll("button, input").forEach((control) => {
+    control.disabled = forceUpdateRequired || isBusy;
+  });
+}
+
+function responseType(text) {
+  if (text.includes("[ERROR]") || text.includes("失败") || text.includes("错误")) return "error";
+  if (text.includes("[OK]") || text.includes("成功") || text.includes("完成")) return "success";
+  return "info";
+}
+
+async function requestKey(key, timeoutMs = 45000) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(apiUrl(key), {
+      cache: "no-store",
+      signal: controller.signal
+    });
+    const text = await response.text();
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    return text.trim();
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+function actionTimeout(key) {
+  if (key === "run_all") return 180000;
+  return 45000;
+}
+
+function connectionMessage(error) {
+  if (error && error.name === "AbortError") return "请求超时";
+  return "API 未响应，请确认模块服务已启动";
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+function hasKsuBridge() {
+  return Boolean(window.ksu && typeof window.ksu.exec === "function");
+}
+
+function quoteShell(value) {
+  return "'" + String(value).replace(/'/g, "'\"'\"'") + "'";
+}
+
+function getModuleDir() {
+  if (window.ksu && typeof window.ksu.moduleInfo === "function") {
+    try {
+      const info = JSON.parse(window.ksu.moduleInfo() || "{}");
+      if (info.moduleDir) return String(info.moduleDir);
+    } catch (error) {
+      log("读取模块目录失败，使用默认模块路径", "warning");
+    }
+  }
+  return "/data/adb/modules/cufy5chu";
+}
+
+async function startServiceViaBridge() {
+  if (!hasKsuBridge()) {
+    throw new Error("当前环境不支持 KernelSU 执行桥");
+  }
+
+  const moduleDir = getModuleDir();
+  const command = [
+    `MODDIR=${quoteShell(moduleDir)}`,
+    `BIN="$MODDIR/bin/mochan_hide"`,
+    `[ -f "$BIN" ] || exit 127`,
+    `chmod 755 "$BIN"`,
+    `"$BIN" start >/dev/null 2>&1 &`
+  ].join("; ");
+  const output = window.ksu.exec(command);
+  if (output && output.trim()) log(output.trim(), responseType(output));
+}
+
+async function waitForApiReady(attempts = 1, delayMs = 800) {
+  let lastError;
+  for (let index = 0; index < attempts; index += 1) {
+    if (index > 0) await sleep(delayMs);
+    try {
+      await requestKey("ping", 2000);
+      apiStatusEl.textContent = "API 已连接 8081";
+      return true;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  apiStatusEl.textContent = "API 未连接";
+  if (lastError) log(`API 未连接：${connectionMessage(lastError)}`, "error");
+  return false;
+}
+
+function extractJson(text) {
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start === -1 || end === -1 || end <= start) return null;
+  try {
+    return JSON.parse(text.slice(start, end + 1));
+  } catch (error) {
+    return null;
+  }
+}
+
+function stripJson(text) {
+  return text.replace(/\{[\s\S]*\}\s*$/, "").trim();
+}
+
+function propText(value, fallback) {
+  return value && value.trim() ? value.trim() : fallback;
+}
+
+function applyHwuiState(state) {
+  if (!state) return;
+  vulkanSwitchEl.checked = Boolean(state.vulkanEnabled);
+  rendererStatusEl.textContent = state.vulkanEnabled ? "Vulkan" : "OpenGL";
+  const renderer = propText(state.renderer, "系统默认");
+  const disableVulkan = propText(state.disableVulkan, "未设置");
+  rendererDescEl.textContent = state.vulkanEnabled
+    ? `当前：Skia Vulkan；renderer=${renderer}`
+    : `当前：Skia OpenGL；disable_vulkan=${disableVulkan}`;
+}
+
+async function refreshHwuiState() {
+  try {
+    const text = await requestKey("hwui_status", 5000);
+    const state = extractJson(text);
+    if (!state) throw new Error("状态解析失败");
+    applyHwuiState(state);
+  } catch (error) {
+    rendererStatusEl.textContent = "未知";
+    rendererDescEl.textContent = connectionMessage(error);
+    log(`渲染状态读取失败：${connectionMessage(error)}`, "error");
+  }
+}
+
+async function setHwuiMode(useVulkan) {
+  if (forceUpdateRequired) {
+    log("当前版本过低，功能已停用，请先更新", "error");
+    return;
+  }
+
+  setButtonsBusy(true);
+  try {
+    const key = useVulkan ? "hwui_vulkan" : "hwui_opengl";
+    const name = useVulkan ? "Vulkan" : "Skia OpenGL";
+    log(`开始切换：${name}`);
+    const text = await requestKey(key, 15000);
+    const clean = stripJson(text);
+    const type = responseType(text);
+    log(clean || `已切换：${name}`, type);
+    const state = extractJson(text);
+    if (state) applyHwuiState(state);
+    else await refreshHwuiState();
+  } catch (error) {
+    log(`渲染切换失败：${connectionMessage(error)}`, "error");
+    await refreshHwuiState();
+  } finally {
+    setButtonsBusy(false);
+  }
+}
+
+function toNumber(value, fallback) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+function toBool(value) {
+  return value === true || String(value).toLowerCase() === "true";
+}
+
+function cleanZipUrl(value) {
+  const zipUrl = String(value || "").trim();
+  return /\.json(?:[?#].*)?$/i.test(zipUrl) ? "" : zipUrl;
+}
+
+function normalizeUpdateState(raw) {
+  if (!raw || typeof raw !== "object") return null;
+  const latestVersionCode = toNumber(raw.versionCode || raw.latestVersionCode, CURRENT_VERSION_CODE);
+  const minVersionCode = toNumber(
+    raw.minVersionCode || raw.minSupportedVersionCode || raw.minimumVersionCode,
+    latestVersionCode
+  );
+  const forceUpdate = toBool(raw.forceUpdate);
+  const hasRequiredUpdate = CURRENT_VERSION_CODE < minVersionCode ||
+    (forceUpdate && latestVersionCode > CURRENT_VERSION_CODE);
+  const zipUrl = cleanZipUrl(raw.zipUrl || raw.downloadUrl || DEFAULT_ZIP_URL);
+  return {
+    latestVersion: raw.version || raw.latestVersion || CURRENT_VERSION,
+    latestVersionCode,
+    minVersionCode,
+    forceUpdate,
+    required: hasRequiredUpdate,
+    zipUrl,
+    message: raw.forceUpdateMessage || raw.message || ""
+  };
+}
+
+function applyForceUpdate(state) {
+  forceUpdateRequired = true;
+  const latest = state.latestVersion || `versionCode ${state.latestVersionCode}`;
+  const message = state.message || `当前版本 ${CURRENT_VERSION} 过低，必须更新到 ${latest} 后才能使用功能。`;
+  forceUpdateMessageEl.textContent = message;
+  forceUpdateMetaEl.textContent = `当前版本：${CURRENT_VERSION}；最低要求：versionCode ${state.minVersionCode}；最新版本：${latest}`;
+  forceUpdateLinkEl.hidden = !state.zipUrl;
+  if (state.zipUrl) forceUpdateLinkEl.href = state.zipUrl;
+  forceUpdatePanelEl.hidden = false;
+  apiStatusEl.textContent = "必须更新";
+  setButtonsBusy(false);
+  log(message, "error");
+}
+
+async function fetchBackendUpdateState() {
+  const text = await requestKey("update_check", 12000);
+  return JSON.parse(text);
+}
+
+async function checkForceUpdate() {
+  let state;
+  try {
+    state = normalizeUpdateState(await fetchBackendUpdateState());
+  } catch (error) {
+    log("未获取到内置更新状态，继续使用当前版本", "warning");
+    return false;
+  }
+
+  if (!state) return false;
+  if (state.required) {
+    applyForceUpdate(state);
+    return true;
+  }
+  if (state.latestVersionCode > CURRENT_VERSION_CODE) {
+    log(`检测到新版本 ${state.latestVersion}，建议更新`, "warning");
+  }
+  return false;
+}
+
+async function checkApi() {
+  return waitForApiReady(1, 800);
+}
+
+async function runAction(action) {
+  log(`开始执行：${action.name}`);
+  try {
+    const text = await requestKey(action.key, actionTimeout(action.key));
+    const type = responseType(text);
+    log(`${action.name}：${type === "error" ? "执行失败" : "执行成功"}`, type);
+    if (text) log(text, type);
+  } catch (error) {
+    log(`${action.name}：连接失败，${connectionMessage(error)}`, "error");
+    throw error;
+  }
+}
+
+async function runService() {
+  log("开始执行：启动服务");
+  try {
+    const text = await requestKey("start_service", 5000);
+    const type = responseType(text);
+    log(`启动服务：${type === "error" ? "执行失败" : "执行成功"}`, type);
+    if (text) log(text, type);
+  } catch (error) {
+    if (!hasKsuBridge()) {
+      log(`启动服务：连接失败，${connectionMessage(error)}`, "error");
+      throw error;
+    }
+    log(`启动服务：${connectionMessage(error)}，尝试通过 KernelSU 启动`, "warning");
+    await startServiceViaBridge();
+    log("启动服务命令已发送，正在等待 API", "success");
+  }
+
+  const ready = await waitForApiReady(5, 1000);
+  if (!ready) throw new Error("API 启动超时");
+  await refreshHwuiState();
+}
+
+async function runAll() {
+  log("开始一键顺序执行");
+  await runAction({ key: "run_all", name: "一键顺序执行" });
+  log("一键顺序执行完成", "success");
+}
+
+async function clearRemoteLog() {
+  log("正在清空后台日志");
+  const text = await requestKey("clear");
+  log(text || "后台日志已清空", responseType(text));
+}
+
+function clearPanelLog() {
+  logEl.innerHTML = "";
+  log("面板日志已清空", "success");
+}
+
+function renderActions() {
+  const fragment = document.createDocumentFragment();
+  actions.forEach((action) => {
+    const button = document.createElement("button");
+    button.className = "button";
+    button.type = "button";
+    button.textContent = action.name;
+    button.dataset.key = action.key;
+    fragment.appendChild(button);
+  });
+  actionGridEl.appendChild(fragment);
+}
+
+function loadBackground() {
+  const savedBg = localStorage.getItem("customBg");
+  if (!savedBg) return;
+  document.body.style.backgroundImage = `url(${savedBg})`;
+  log("已恢复上次背景", "success");
+}
+
+function setBackground(file) {
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const base64 = event.target.result;
+    document.body.style.backgroundImage = `url(${base64})`;
+    localStorage.setItem("customBg", base64);
+    log("背景已保存", "success");
+  };
+  reader.onerror = () => log("背景读取失败", "error");
+  reader.readAsDataURL(file);
+}
+
+function resetBackground() {
+  localStorage.removeItem("customBg");
+  document.body.style.backgroundImage = "";
+  bgPickerEl.value = "";
+  log("已恢复默认背景", "success");
+}
+
+async function initializeApiState() {
+  const connected = await checkApi();
+  if (connected) {
+    await refreshHwuiState();
+    return;
+  }
+
+  if (!hasKsuBridge()) {
+    rendererStatusEl.textContent = "未知";
+    rendererDescEl.textContent = "请先启动模块服务";
+    return;
+  }
+
+  log("检测到模块服务未运行，正在自动启动", "warning");
+  try {
+    await startServiceViaBridge();
+    const ready = await waitForApiReady(5, 1000);
+    if (!ready) {
+      rendererStatusEl.textContent = "未知";
+      rendererDescEl.textContent = "模块服务启动超时";
+      return;
+    }
+
+    log("模块服务已启动", "success");
+    const blocked = await checkForceUpdate();
+    if (!blocked) await refreshHwuiState();
+  } catch (error) {
+    rendererStatusEl.textContent = "未知";
+    rendererDescEl.textContent = "模块服务启动失败";
+    log(`自动启动服务失败：${error.message || error}`, "error");
+  }
+}
+
+async function handleCommand(command) {
+  if (forceUpdateRequired) {
+    log("当前版本过低，功能已停用，请先更新", "error");
+    return;
+  }
+  setButtonsBusy(true);
+  try {
+    if (command === "service") await runService();
+    if (command === "run-all") await runAll();
+    if (command === "clear-log") clearPanelLog();
+    if (command === "clear-remote-log") await clearRemoteLog();
+    if (command === "reset-bg") resetBackground();
+  } catch (error) {
+    apiStatusEl.textContent = "API 连接异常";
+  } finally {
+    setButtonsBusy(false);
+  }
+}
+
+document.addEventListener("click", async (event) => {
+  const commandButton = event.target.closest("[data-command]");
+  if (commandButton) {
+    await handleCommand(commandButton.dataset.command);
+    return;
+  }
+
+  const actionButton = event.target.closest("[data-key]");
+  if (!actionButton) return;
+
+  if (forceUpdateRequired) {
+    log("当前版本过低，功能已停用，请先更新", "error");
+    return;
+  }
+
+  setButtonsBusy(true);
+  try {
+    await runAction(actionMap[actionButton.dataset.key]);
+  } catch (error) {
+    apiStatusEl.textContent = "API 连接异常";
+  } finally {
+    setButtonsBusy(false);
+  }
+});
+
+bgPickerEl.addEventListener("change", (event) => {
+  setBackground(event.target.files[0]);
+});
+
+vulkanSwitchEl.addEventListener("change", (event) => {
+  setHwuiMode(event.target.checked);
+});
+
+renderActions();
+loadBackground();
+log("控制面板已就绪", "success");
+checkForceUpdate().then((blocked) => {
+  if (!blocked) initializeApiState();
+});
+</script>
+</body>
+</html>
