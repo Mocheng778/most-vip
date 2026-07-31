@@ -1,23 +1,10 @@
+}
 {
   "version": "v13.0.6(68)",
   "versionCode": 68,
-  "currentVersion": "v13.0.6(68)",
-  "currentVersionCode": 68,
   "latestVersion": "v13.0.6(68)",
   "latestVersionCode": 68,
-  "minVersionCode": 68,
-  "minSupportedVersionCode": 68,
-  "minimumVersionCode": 68,
   "forceUpdate": false,
-  "updateRequired": false,
   "zipUrl": "https://raw.githubusercontent.com/Mocheng778/most-vip/main/莫晨一键隐藏模块-v13.0.6(68)-download-fix.zip",
-  "changelog": "⑤增强了隐藏效果脚本，刷完模块后，一键按顺序执行就OK了。
-这个就是本次更新内容# 莫晨一键隐藏模块 v13.0.6 更新日志
-> ⚠️强制更新通知
-① 普通密钥升级为3绿密，执行成功即可通过3绿检测
-② HMA-OSS升级至164版本，刷写模块时自动安装配套模块与APP
-③ 更新HMA-OSS黑名单，伪装标识修改为 v13.0.2版本隐藏
-④ 修复执行失败、端口连接异常问题；部分机型MT脚本替换失败属于正常现象，无需处理
-⑤ 优化增强隐藏脚本，刷入模块后按顺序一键执行即可
-"
+  "changelog": "⑤增强了隐藏效果脚本，刷完模块后，一键按顺序执行就OK了。\n# 莫晨一键隐藏模块 v13.0.6 更新日志\n> ⚠️强制更新通知\n① 普通密钥升级为3绿密，执行成功即可通过3绿检测\n② HMA-OSS升级至164版本，刷写模块时自动安装配套模块与APP\n③ 更新HMA-OSS黑名单，伪装标识修改为 v13.0.2版本隐藏\n④ 修复执行失败、端口连接异常问题；部分机型MT脚本替换失败属于正常现象，无需处理\n⑤ 优化增强隐藏脚本，刷入模块后按顺序一键执行即可"
 }
